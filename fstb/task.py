@@ -26,14 +26,17 @@ class MonitoredTranslationTask(TranslationTask):
         super().__init__(args, src_dict, tgt_dict)
         should_log = getattr(args, 'distributed_rank', 0) == 0
         if should_log:
-            log_dir = os.path.join(args.save_dir, 'logs')
-            logger = SummaryWriter(log_dir)
-            logger.add_text('args', str(vars(args)))
-            logger.add_text('sys.argv', " ".join(sys.argv))
+            train_logger = SummaryWriter(os.path.join(args.save_dir, 'train_logs'))
+            valid_logger = SummaryWriter(os.path.join(args.save_dir, 'valid_logs'))
+            for logger in [train_logger, valid_logger]:
+                logger.add_text('args', str(vars(args)))
+                logger.add_text('sys.argv', " ".join(sys.argv))
         else:
-            logger = None
+            train_logger = valid_logger = None
 
-        self.logger = logger
+        self.should_log = should_log
+        self.train_logger = train_logger
+        self.valid_logger = valid_logger
         self.num_updates = 0
         self.last_validation_outputs = None
         self.last_validation_step = 0
@@ -41,7 +44,7 @@ class MonitoredTranslationTask(TranslationTask):
     def aggregate_logging_outputs(self, logging_outputs, criterion):
         aggregated = super().aggregate_logging_outputs(logging_outputs, criterion)
 
-        if self.logger is None:
+        if not self.should_log:
             return aggregated
 
         is_training = criterion.training
@@ -77,10 +80,9 @@ class MonitoredTranslationTask(TranslationTask):
         return aggregated
 
     def _log_outputs(self, aggregated, step, is_training):
-        prefix = 'train_' if is_training else 'valid_'
+        logger = self.train_logger if is_training else self.valid_logger
         for key, value in aggregated.items():
-            tag = prefix + key
-            self.logger.add_scalar(tag, value, step)
+            logger.add_scalar(key, value, step)
 
     def train_step(self, sample, model, criterion, optimizer, ignore_grad=False):
         self.num_updates += 1
