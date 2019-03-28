@@ -5,6 +5,7 @@
 # the root directory of this source tree.
 
 import os
+import sys
 
 from fairseq.tasks import register_task
 from fairseq.tasks.translation import TranslationTask
