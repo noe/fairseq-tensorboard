@@ -13,15 +13,17 @@ from fairseq.tasks.translation import TranslationTask
 from tensorboardX import SummaryWriter
 
 
-class LoggingMixin:
+@register_task('monitored_translation')
+class MonitoredTranslationTask(TranslationTask):
     """
-    Mixin that provides tensorboard logging to FairseqTask's .
+    Provides tensorboard logging to FairseqTask's .
     Note that for validation outputs we potentially get the losses
     of the several batches in the validation data, so we aggregate
     them until the next batch of training data arrives.
     """
 
-    def __init__(self, args):
+    def __init__(self, args, src_dict, tgt_dict):
+        super().__init__(args, src_dict, tgt_dict)
         should_log = getattr(args, 'distributed_rank', 0) == 0
         if should_log:
             log_dir = os.path.join(args.save_dir, 'logs')
@@ -85,8 +87,3 @@ class LoggingMixin:
         return super().train_step(sample, model, criterion, optimizer, ignore_grad=ignore_grad)
 
 
-@register_task('monitored_translation')
-class MonitoredTranslationTask(TranslationTask, LoggingMixin):
-    def __init__(self, args, src_dict, tgt_dict):
-        super(TranslationTask, self).__init__(args, src_dict, tgt_dict)
-        super(LoggingMixin, self).__init__(args)
