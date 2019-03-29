@@ -43,7 +43,7 @@ You would change this:
 
 ...into this:
 
-<img src="pics/tb.png" alt="Intuitive tensorboard plot" width="600"/>
+<img src="pics/tb.png?" alt="Intuitive tensorboard plot" width="600"/>
 
 
 ### How can fairseq load fstb?
