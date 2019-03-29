@@ -39,11 +39,11 @@ Because it allows you to visually diagnose your losses!
 
 You would change this:
 
-![Obscure terminal logs](pics/terminal.png)
+![Obscure terminal logs](pics/terminal.png  =300x))
 
 ...into this:
 
-![Intuitive tensorboard plot](pics/tb.png)
+![Intuitive tensorboard plot](pics/tb.png =300x)
 
 
 ### How can fairseq load fstb?
