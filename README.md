@@ -39,11 +39,11 @@ Because it allows you to visually diagnose your losses!
 
 You would change this:
 
-<img src="pics/terminal.png" alt="Obscure terminal logs" width="300"/>
+<img src="pics/terminal.png" alt="Obscure terminal logs" width="600"/>
 
 ...into this:
 
-<img src="pics/tb.png" alt="Intuitive tensorboard plot" width="300"/>
+<img src="pics/tb.png" alt="Intuitive tensorboard plot" width="600"/>
 
 
 ### How can fairseq load fstb?
