@@ -52,6 +52,7 @@ You have to provide fairseq with command line argument `--user-dir` with
 the path of fstb. This instructs fairseq to load the fstb code, which
 registers task `monitored_translation`.
 
+
 ### Does fstb work with multi-GPU training?
 
 Yes, it has been tested with single-node multi-GPU training. Only the
