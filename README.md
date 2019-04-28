@@ -1,5 +1,9 @@
 # fairseq-tensorboard
 
+NOTE: the functionality in this library is already present in fairseq since commit
+https://github.com/pytorch/fairseq/commit/257a3b89edf359c1a2603ff7a841db6b926460bd
+(included in fairseq release 0.6.3)
+
 This is a small utility to monitor fairseq training in tensorboard.
 
 It is not a fork of fairseq, but just a small class that extends its
